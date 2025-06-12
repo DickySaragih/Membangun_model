@@ -24,9 +24,17 @@ grid_search = GridSearchCV(model, param_grid, cv=3, scoring='accuracy')
 grid_search.fit(X_train, y_train)
 
 # === 3. Konfigurasi MLflow ke DagsHub ===
-os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv("https://dagshub.com/di803805/WineQT-MLFlow")
-os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("1d89765b79436c624cdf3044b2b559daa1da1768")
-mlflow.set_tracking_uri("https://dagshub.com/di803805/WineQT-MLFlow.mlflow")
+mlflow_username = os.getenv("DAGSHUB_USERNAME")
+mlflow_token = os.getenv("DAGSHUB_TOKEN")
+
+if not mlflow_username or not mlflow_token:
+    raise ValueError("DAGSHUB_USERNAME or DAGSHUB_TOKEN environment variable is not set")
+
+# Konfigurasi MLflow ke DagsHub
+os.environ['MLFLOW_TRACKING_URI'] = 'https://dagshub.com/di803805/WineQT-MLFlow.mlflow'
+os.environ['MLFLOW_TRACKING_USERNAME'] = 'di803805'
+os.environ['MLFLOW_TRACKING_PASSWORD'] = '1d89765b79436c624cdf3044b2b559daa1da1768'  # Ganti dengan token DagsHub
+
 
 experiment_name = "WineQT_Model_Tuning"
 experiment = mlflow.get_experiment_by_name(experiment_name)
@@ -57,8 +65,8 @@ with mlflow.start_run():
     mlflow.log_metric("f1_score", f1)
 
     # Confusion matrix
-    cm = confusion_matrix(y_test, y_pred, labels=np.unique(y))
-    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(y))
+    cm = confusion_matrix(y_test, y_pred, labels=np.unique(y_test))
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(y_test))
     disp.plot(cmap='Blues')
     plt.title("Confusion Matrix")
     cm_path = "confusion_matrix.png"
