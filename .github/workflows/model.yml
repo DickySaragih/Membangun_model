@@ -1,21 +1,18 @@
-name: Model Tuning Pipeline
+name: Run MLflow Tuning
 
 on:
   push:
     paths:
       - 'Membangun_model/modelling_tuning.py'
-      - '.github/workflows/**'
+      - '.github/workflows/mlflow-model.yml'
   workflow_dispatch:
 
 jobs:
-  run-model-tuning:
+  run-modelling:
     runs-on: ubuntu-latest
-    env:
-      MLFLOW_TRACKING_URI: https://dagshub.com/${{ secrets.DAGSHUB_USERNAME }}/${{ secrets.DAGSHUB_REPO }}.mlflow
-      MLFLOW_TRACKING_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
-      MLFLOW_TRACKING_PASSWORD: ${{ secrets.DAGSHUB_TOKEN }}
+
     steps:
-    - name: Checkout repository
+    - name: Checkout repo
       uses: actions/checkout@v3
 
     - name: Set up Python
@@ -27,6 +24,10 @@ jobs:
       run: |
         pip install -r Membangun_model/requirements.txt
 
-    - name: Run model tuning and log to DagsHub
+    - name: Run MLflow tuning
+      env:
+        DAGSHUB_USERNAME: ${{ secrets.DAGSHUB_USERNAME }}
+        DAGSHUB_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
       run: |
         python Membangun_model/modelling_tuning.py
+
