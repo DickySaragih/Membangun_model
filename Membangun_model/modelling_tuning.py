@@ -30,11 +30,7 @@ mlflow_token = os.getenv("DAGSHUB_TOKEN")
 if not mlflow_username or not mlflow_token:
     raise ValueError("DAGSHUB_USERNAME or DAGSHUB_TOKEN environment variable is not set")
 
-# Konfigurasi MLflow ke DagsHub
-os.environ['MLFLOW_TRACKING_URI'] = 'https://dagshub.com/di803805/WineQT-MLFlow.mlflow'
-os.environ['MLFLOW_TRACKING_USERNAME'] = 'di803805'
-os.environ['MLFLOW_TRACKING_PASSWORD'] = '1d89765b79436c624cdf3044b2b559daa1da1768'  # Ganti dengan token DagsHub
-
+mlflow.set_tracking_uri(f"https://{mlflow_username}:{mlflow_token}@dagshub.com/di803805/student-performance-mlflow.mlflow")
 
 experiment_name = "WineQT_Model_Tuning"
 experiment = mlflow.get_experiment_by_name(experiment_name)
