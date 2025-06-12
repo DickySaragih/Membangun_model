@@ -24,9 +24,9 @@ grid_search = GridSearchCV(model, param_grid, cv=3, scoring='accuracy')
 grid_search.fit(X_train, y_train)
 
 # === 3. Konfigurasi MLflow ke DagsHub ===
-os.environ["MLFLOW_TRACKING_USERNAME"] = "<di803805 >"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "1d89765b79436c624cdf3044b2b559daa1da1768"
-mlflow.set_tracking_uri("https://dagshub.com/di803805/WineQT-MLFlowmlflow")
+os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv("di803805")
+os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv("1d89765b79436c624cdf3044b2b559daa1da1768")
+mlflow.set_tracking_uri(f"https://dagshub.com/{os.environ['https://dagshub.com/di803805/WineQT-MLFlow")
 
 experiment_name = "WineQT_Model_Tuning"
 experiment = mlflow.get_experiment_by_name(experiment_name)
