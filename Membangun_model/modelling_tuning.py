@@ -24,13 +24,13 @@ grid_search = GridSearchCV(model, param_grid, cv=3, scoring='accuracy')
 grid_search.fit(X_train, y_train)
 
 # === 3. Konfigurasi MLflow ke DagsHub ===
-mlflow_username = os.getenv("DAGSHUB_USERNAME")
-mlflow_token = os.getenv("DAGSHUB_TOKEN")
+mlflow_username = os.getenv("di803805")
+mlflow_token = os.getenv("1d89765b79436c624cdf3044b2b559daa1da1768")
 
 if not mlflow_username or not mlflow_token:
     raise ValueError("DAGSHUB_USERNAME or DAGSHUB_TOKEN environment variable is not set")
 
-mlflow.set_tracking_uri(f"https://{mlflow_username}:{mlflow_token}@dagshub.com/di803805/student-performance-mlflow.mlflow")
+mlflow.set_tracking_uri(f"https://dagshub.com/di803805/WineQT-MLFlow/datasets.mlflow")
 
 experiment_name = "WineQT_Model_Tuning"
 experiment = mlflow.get_experiment_by_name(experiment_name)
